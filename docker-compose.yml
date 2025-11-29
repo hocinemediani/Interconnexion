@@ -1,0 +1,55 @@
+services:
+  router-1:
+    image: frrouting/frr:latest
+    container_name: router-1
+    privileged: true
+    networks: 
+      reseau-as:
+        ipv4_address: 120.0.32.1
+  router-services:
+    image: frrouting/frr:latest
+    container_name: router-services
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.2
+      reseau-services:
+        ipv4_address: 120.0.33.1
+
+networks:
+  reseau-as:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 120.0.32.0/24
+          gateway: 120.0.32.254
+  reseau-services:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 120.0.33.0/24
+          gateway: 120.0.33.254
+  reseau-client-as-5:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.40.0/24
+          gateway: 192.168.40.254
+  reseau-client-as-2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.30.0/24
+          gateway: 192.168.30.254
+  reseau-entreprise-as-2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24
+          gateway: 192.168.20.254
+  reseau-entreprise-as-1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+          gateway: 192.168.10.254
