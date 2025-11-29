@@ -16,6 +16,8 @@ services:
       reseau-services:
         ipv4_address: 120.0.33.1
 
+# La balise gateway est obligatoire pour eviter que la gateway docker n'entre en
+# conflit avec nos assignations d'adresses ip pour les machines.
 networks:
   reseau-as:
     driver: bridge
