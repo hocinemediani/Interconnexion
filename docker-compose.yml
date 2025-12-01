@@ -17,6 +17,26 @@ services:
       reseau-services:
         ipv4_address: 120.0.33.1
 
+  router-server-web-public:
+    image: alpine:latest
+    container_name: router-server-web-public
+    privileged: true
+    networks:
+      reseau-services:
+        ipv4_address: 120.0.33.5
+      reseau-serveur-web-public:
+        ipv4_address: 120.0.33.29
+  
+  router-server-web-entreprise:
+    image: alpine:latest
+    container_name: router-server-web-entreprise
+    privileged: true
+    networks:
+      reseau-services:
+        ipv4_address: 120.0.33.4
+      reseau-serveur-web-entreprise:
+        ipv4_address: 120.0.33.25
+
   server-dns:
     image: ubuntu/bind9:latest
     container_name: server-dns
@@ -72,21 +92,25 @@ networks:
     ipam:
       config:
         - subnet: 120.0.33.24/30
+          gateway: 120.0.33.25
   reseau-serveur-web-public:
     driver: bridge
     ipam:
       config:
         - subnet: 120.0.33.28/30
+          gateway: 120.0.33.29
   reseau-serveur-dns:
     driver: bridge
     ipam:
       config:
         - subnet: 120.0.33.20/30
+          gateway: 120.0.33.21
   reseau-serveur-smtp:
     driver: bridge
     ipam:
       config:
         - subnet: 120.0.33.16/30
+          gateway: 120.0.33.17
   reseau-client-as-5:
     driver: bridge
     ipam:
