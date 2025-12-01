@@ -15,6 +15,14 @@ services:
         ipv4_address: 120.0.32.2
       reseau-services:
         ipv4_address: 120.0.33.1
+   dns:
+    image: internetsystemsconsortium/bind9:latest
+    container_name: server-dns
+    networks:
+    	reseau_dns: 
+    	 ipv4_address: 120.0.33.22
+    volumes:
+      - ./configs/server-dns:/etc/bind
 
 # La balise gateway est obligatoire pour eviter que la gateway docker n'entre en
 # conflit avec nos assignations d'adresses ip pour les machines.
