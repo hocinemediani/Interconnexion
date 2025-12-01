@@ -37,6 +37,16 @@ services:
       reseau-serveur-web-entreprise:
         ipv4_address: 120.0.33.25
 
+  router-as-1:
+    image: frrouting/frr:latest
+    container_name: router-as-1
+    privileged: true
+    volumes:
+      - ./configs/router-as-1:/etc/frr
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.7
+
   server-dns:
     image: ubuntu/bind9:latest
     container_name: server-dns
