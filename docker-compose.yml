@@ -73,25 +73,25 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.33.24/27
+        - subnet: 120.0.33.24/30
           gateway: 120.0.33.27
   reseau-serveur-web-public:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.33.28/27
+        - subnet: 120.0.33.28/30
           gateway: 120.0.33.31
   reseau-serveur-dns:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.33.20/27
+        - subnet: 120.0.33.20/30
           gateway: 120.0.33.23
   reseau-serveur-smtp:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.33.16/27
+        - subnet: 120.0.33.16/30
           gateway: 120.0.33.19
   reseau-client-as-5:
     driver: bridge
