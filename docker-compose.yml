@@ -18,7 +18,7 @@ services:
         ipv4_address: 120.0.33.1
 
   dns:
-    image: internetsystemsconsortium/bind9:latest
+    image: ubuntu/bind9:latest
     container_name: server-dns
     networks:
       reseau-serveur-dns: 
