@@ -81,6 +81,7 @@ networks:
     ipam:
       config:
         - subnet: 120.0.32.0/24
+          gateway: 120.0.32.254
   reseau-services:
     driver: bridge
     ipam:
