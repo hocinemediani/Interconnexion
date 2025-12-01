@@ -21,7 +21,7 @@ services:
     image: internetsystemsconsortium/bind9:latest
     container_name: server-dns
     networks:
-      reseau_dns: 
+      reseau-serveur-dns: 
         ipv4_address: 120.0.33.22
     volumes:
       - ./configs/server-dns:/etc/bind
@@ -33,7 +33,7 @@ services:
     image: nginx:latest
     container_name: serveur_web_public
     networks:
-      reseau_serveurWeb_public:
+      reseau-serveur-web-public:
         ipv4_address: 120.0.33.30
     ports:
       - "80:80"
@@ -46,7 +46,7 @@ services:
     image: nginx:latest
     container_name: web_entreprise
     networks:
-      reseau_serveurWeb_entreprise:
+      reseau-serveur-web-entreprise:
         ipv4_address: 120.0.33.26
     ports:
       - "80:80"
@@ -61,14 +61,38 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.32.0/24
+        - subnet: 120.0.32.0/20
           gateway: 120.0.32.254
   reseau-services:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.33.0/24
+        - subnet: 120.0.33.0/27
           gateway: 120.0.33.254
+  reseau-serveur-web-entreprise:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 120.0.33.24/27
+          gateway: 120.0.33.27
+  reseau-serveur-web-public:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 120.0.33.28/27
+          gateway: 120.0.33.31
+  reseau-serveur-dns:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 120.0.33.20/27
+          gateway: 120.0.33.23
+  reseau-serveur-smtp:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 120.0.33.16/27
+          gateway: 120.0.33.19
   reseau-client-as-5:
     driver: bridge
     ipam:
