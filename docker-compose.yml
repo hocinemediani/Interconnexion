@@ -65,6 +65,19 @@ services:
       - ./configs/server-web-entreprise/config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     restart: unless-stopped
 
+  server-smtp:
+    image: mwader/postfix-relay:latest
+    container_name: server-smtp
+    networks:
+      reseau-services:
+        ipv4_address: 120.0.33.5
+    ports:
+      - "25:25"
+    # il faudra ajouter les dossiers de configs
+    #volumes:
+    #  - ./configs/server-smtp
+    restart: unless-stopped
+
 networks:
   reseau-as:
     driver: bridge
