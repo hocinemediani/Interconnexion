@@ -1,21 +1,59 @@
 services:
-  router-1:
-    image: frrouting/frr:latest
-    container_name: router-1
-    privileged: true
-    networks: 
-      reseau-as:
-        ipv4_address: 120.0.32.1
-  router-services:
-    image: frrouting/frr:latest
-    container_name: router-services
-    privileged: true
-    networks:
-      reseau-as:
-        ipv4_address: 120.0.32.2
-      reseau-services:
-        ipv4_address: 120.0.33.1
-
+	router-1:
+		image: frrouting/frr:latest
+		container_name: router-1
+    		privileged: true
+    		networks: 
+      			reseau-as:
+        			ipv4_address: 120.0.32.1
+  	router-services:
+    		image: frrouting/frr:latest
+    		container_name: router-services
+    		privileged: true
+    		networks:
+      			reseau-as:
+        		ipv4_address: 120.0.32.2
+      			reseau-services:
+        		ipv4_address: 120.0.33.1
+   	dns:
+    		image: internetsystemsconsortium/bind9:latest
+    		container_name: server-dns
+    		networks:
+    			reseau_dns: 
+    	 			ipv4_address: 120.0.33.22
+    		volumes:
+      			- ./configs/server-dns:/etc/bind
+    		ports:
+		      - "53:53/udp"
+		      - "53:53/tcp"
+      
+   	serveur_web_public:
+    		image: nginx:latest
+    		container_name: serveur_web_public
+    		networks:
+      			reseau_serveurWeb_public:
+        			ipv4_address: 120.0.33.30
+    		ports:
+      		- "80:80"
+      
+    		volumes:
+		      - ./configs/server-web-public/html:/usr/share/nginx/html:ro
+		      - ./configs/server-web-public/config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    		restart: unless-stopped
+      
+	web_entreprise:
+    		image: nginx:latest
+    		container_name: web_entreprise
+    		networks:
+      			reseau_serceurWeb_entreprise:
+        			ipv4_address: 120.0.33.26
+	 	ports:
+      		- "80:80"
+    		volumes:
+		- ./configs/server-web-entreprise/html:/usr/share/nginx/html:ro
+		- ./configs/server-web-entreprise/config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+	
+    		restart: unless-stopped
 # La balise gateway est obligatoire pour eviter que la gateway docker n'entre en
 # conflit avec nos assignations d'adresses ip pour les machines.
 networks:
