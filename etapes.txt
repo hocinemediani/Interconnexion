@@ -1,0 +1,52 @@
+- Configurer les reseaux :
+    - reseau d'as.
+    - reseau services.
+    - reseaux d'entreprises.
+    - reseaux de clients.
+    - reseaux simulant des connexions physiques ?.
+
+
+- Creer les services docker, donc routeurs et services proposes
+plus quelques machines chez le client et dans l'entreprise :
+    - routeur 1.
+    - routeur services.
+    - routeurs interconnection d'as.
+    - routeurs d'entreprise.
+    - serveurs web.
+    - serveur dns.
+    - serveur smtp.
+
+
+- Creer les fichiers init.sh pour chaque routeur :
+    - echo 1 > /proc/sys/net/ipv4/ip_forward.
+    - les routes par defaut depuis les routeurs de bordure vers le
+    routeur 1.
+    - la redirection vers les services par le routeur service.
+    - exec /usr/lib/frr/docker-start.
+    - les lier aux containers avec des volumes :
+        - "- cheminMachine:cheminContainer" pour init.sh et les .conf.
+        - "entrypoint: ["/bin/sh", cheminInit]"
+
+
+- Tester le tout avec des pings :
+    - routeur as x peut ping routeur as y ?
+    - routeur client x peut ping service ?
+
+
+- Faire le nat pour que l'entreprise puisse communiquer avec
+l'exterieur, idem pour les clients :
+    - regles de pre/postrouting pour la traduction d'adresses.
+
+
+- Faire le filtrage vers le routeur service :
+    - uniquement les requetes udp tcp sur port 53 pour le dns.
+    - uniquement les requetes sur le port 80 pour les serveurs web.
+    - uniquement les envois de mail sur le serveur smtp.
+    - si adresse ip entreprise ou de client => possibilite d'acceder
+    au serveur web d'entreprise, sinon redirection vers le public.
+
+
+- Implementer les serveurs web, dns et smtp :
+
+
+- Implementer le vpn et le voip :

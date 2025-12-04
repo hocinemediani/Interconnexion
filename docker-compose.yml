@@ -1,82 +1,172 @@
 services:
-  router-1:
+  routeur-1:
     image: frrouting/frr:latest
-    container_name: router-1
+    container_name: routeur-1
     privileged: true
-    networks: 
+    networks:
       reseau-as:
         ipv4_address: 120.0.32.1
-
-  router-services:
+    volumes:
+      - ./configs/routeur-1/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+  
+  routeur-entreprise-as-2:
     image: frrouting/frr:latest
-    container_name: router-services
+    container_name: routeur-entreprise-as-2
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.3
+      reseau-entreprise-as-2:
+        ipv4_address: 192.168.20.1
+    volumes:
+      - ./configs/routeur-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
+  routeur-client-as-2:
+    image: frrouting/frr:latest
+    container_name: routeur-client-as-2
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.4
+      reseau-client-as-2:
+        ipv4_address: 192.168.30.1
+    volumes:
+      - ./configs/routeur-client-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
+  routeur-entreprise-as-1:
+    image: frrouting/frr:latest
+    container_name: routeur-entreprise-as-1
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.5
+      reseau-entreprise-as-1:
+        ipv4_address: 192.168.10.1
+    volumes:
+      - ./configs/routeur-entreprise-as-1/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
+  routeur-client-as-5:
+    image: frrouting/frr:latest
+    container_name: routeur-client-as-5
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.6
+      reseau-client-as-5:
+        ipv4_address: 192.168.40.1
+    volumes:
+      - ./configs/routeur-client-as-5/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
+  routeur-as-1:
+    image: frrouting/frr:latest
+    container_name: routeur-as-1
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.7
+    volumes:
+      - ./configs/routeur-as-1/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+          
+
+  routeur-as-3:
+    image: frrouting/frr:latest
+    container_name: routeur-as-3
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.8
+    volumes:
+      - ./configs/routeur-as-3/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
+  routeur-as-4:
+    image: frrouting/frr:latest
+    container_name: routeur-as-4
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.9
+    volumes:
+      - ./configs/routeur-as-4/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
+  routeur-as-5:
+    image: frrouting/frr:latest
+    container_name: routeur-as-5
+    privileged: true
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.32.10
+    volumes:
+      - ./configs/routeur-as-5/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+  
+  routeur-services:
+    image: frrouting/frr:latest
+    container_name: routeur-services
     privileged: true
     networks:
       reseau-as:
         ipv4_address: 120.0.32.2
       reseau-services:
         ipv4_address: 120.0.33.1
-
-  router-as-1:
-    image: frrouting/frr:latest
-    container_name: router-as-1
-    privileged: true
     volumes:
-      - ./configs/router-as-1:/etc/frr
-    networks:
-      reseau-as:
-        ipv4_address: 120.0.32.7
+      - ./configs/routeur-services/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
 
-  server-dns:
+  serveur-dns:
     image: ubuntu/bind9:latest
-    container_name: server-dns
+    container_name: serveur-dns
     networks:
-      reseau-services: 
+      reseau-services:
         ipv4_address: 120.0.33.2
-    volumes:
-      - ./configs/server-dns:/etc/bind
-    ports:
-      - "53:53/udp"
-      - "53:53/tcp"
 
-  server-web-public:
+  serveur-web-public:
     image: nginx:latest
     container_name: serveur-web-public
+    ports:
+      - 80:80
     networks:
       reseau-services:
         ipv4_address: 120.0.33.3
-    ports:
-      - "8080:80"
     volumes:
-      - ./configs/server-web-public/html:/usr/share/nginx/html:ro
-      - ./configs/server-web-public/config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    restart: unless-stopped
-      
-  server-web-entreprise:
+      - ./configs/serveur-web-public/html:/usr/share/nginx/html:ro
+
+  serveur-web-entreprise:
     image: nginx:latest
-    container_name: server-web-entreprise
+    container_name: serveur-web-entreprise
+    ports:
+      - 8080:80
     networks:
       reseau-services:
         ipv4_address: 120.0.33.4
-    ports:
-      - "80:80"
     volumes:
-      - ./configs/server-web-entreprise/html:/usr/share/nginx/html:ro
-      - ./configs/server-web-entreprise/config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    restart: unless-stopped
+      - ./configs/serveur-web-entreprise/html:/usr/share/nginx/html:ro
 
-  server-smtp:
-    image: mwader/postfix-relay:latest
-    container_name: server-smtp
+  serveur-smtp:
+    image: juanluisbaptiste/postfix:latest
+    container_name: serveur-smtp
     networks:
       reseau-services:
         ipv4_address: 120.0.33.5
-    ports:
-      - "25:25"
-    # il faudra ajouter les dossiers de configs
-    #volumes:
-    #  - ./configs/server-smtp
-    restart: unless-stopped
+
+  equipement-client-as-2:
+    image: alpine:latest
+    container_name: equipement-client-as-2
+    networks:
+      reseau-client-as-2:
+        ipv4_address: 192.168.30.2
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs/equipement-client-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
 
 networks:
   reseau-as:
