@@ -21,7 +21,6 @@ plus quelques machines chez le client et dans l'entreprise :
     - echo 1 > /proc/sys/net/ipv4/ip_forward.
     - les routes par defaut depuis les routeurs de bordure vers le
     routeur 1.
-    - la redirection vers les services par le routeur service.
     - exec /usr/lib/frr/docker-start.
     - les lier aux containers avec des volumes :
         - "- cheminMachine:cheminContainer" pour init.sh et les .conf.
@@ -36,6 +35,7 @@ plus quelques machines chez le client et dans l'entreprise :
 - Faire le nat pour que l'entreprise puisse communiquer avec
 l'exterieur, idem pour les clients :
     - regles de pre/postrouting pour la traduction d'adresses.
+    - mise en place de DHCP pour les reseaux privés.
 
 
 - Faire le filtrage vers le routeur service :
