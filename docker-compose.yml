@@ -168,6 +168,18 @@ services:
       - ./configs/equipement-client-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
 
+  equipement-entreprise-as-2:
+    image: alpine:latest
+    container_name: equipement-entreprise-as-2
+    networks:
+      reseau-entreprise-as-2:
+        ipv4_address: 192.168.20.2
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs/equipement-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
 networks:
   reseau-as:
     driver: bridge
