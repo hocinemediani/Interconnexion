@@ -1,8 +1,17 @@
 services:
+  serveur-dns:
+    image: ubuntu/bind9:latest
+    container_name: serveur-dns
+    networks:
+      reseau-services:
+        ipv4_address: 120.0.33.2
+
   routeur-1:
     image: frrouting/frr:latest
     container_name: routeur-1
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.1
@@ -14,6 +23,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-entreprise-as-2
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.3
@@ -27,6 +38,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-client-as-2
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.4
@@ -40,6 +53,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-entreprise-as-1
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.5
@@ -53,6 +68,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-client-as-5
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.6
@@ -66,6 +83,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-as-1
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.7
@@ -78,6 +97,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-as-3
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.8
@@ -89,6 +110,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-as-4
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.9
@@ -100,6 +123,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-as-5
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.10
@@ -111,6 +136,8 @@ services:
     image: frrouting/frr:latest
     container_name: routeur-services
     privileged: true
+    dns:
+      - 120.0.33.2
     networks:
       reseau-as:
         ipv4_address: 120.0.32.2
@@ -120,18 +147,13 @@ services:
       - ./configs/routeur-services/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
 
-  serveur-dns:
-    image: ubuntu/bind9:latest
-    container_name: serveur-dns
-    networks:
-      reseau-services:
-        ipv4_address: 120.0.33.2
-
   serveur-web-public:
     image: nginx:latest
     container_name: serveur-web-public
     ports:
       - 80:80
+    dns:
+      - 120.0.33.2
     networks:
       reseau-services:
         ipv4_address: 120.0.33.3
@@ -143,6 +165,8 @@ services:
     container_name: serveur-web-entreprise
     ports:
       - 8080:80
+    dns:
+      - 120.0.33.2
     networks:
       reseau-services:
         ipv4_address: 120.0.33.4
@@ -152,6 +176,8 @@ services:
   serveur-smtp:
     image: juanluisbaptiste/postfix:latest
     container_name: serveur-smtp
+    dns:
+      - 120.0.33.2
     networks:
       reseau-services:
         ipv4_address: 120.0.33.5
@@ -159,6 +185,8 @@ services:
   equipement-client-as-2:
     image: alpine:latest
     container_name: equipement-client-as-2
+    dns:
+      - 120.0.33.2
     networks:
       reseau-client-as-2:
         ipv4_address: 192.168.30.2
@@ -171,6 +199,8 @@ services:
   equipement-entreprise-as-2:
     image: alpine:latest
     container_name: equipement-entreprise-as-2
+    dns:
+      - 120.0.33.2
     networks:
       reseau-entreprise-as-2:
         ipv4_address: 192.168.20.2
