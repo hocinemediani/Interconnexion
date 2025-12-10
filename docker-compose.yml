@@ -5,6 +5,23 @@ services:
     networks:
       reseau-services:
         ipv4_address: 120.0.33.2
+    volumes:
+      - ./configs/serveur-dns/named.conf.options:/etc/bind/named.conf.options
+      - ./configs/serveur-dns/named.conf.local:/etc/bind/named.conf.local
+      - ./configs/serveur-dns/db.as2.com:/etc/bind/db.as2.com
+      - ./configs/serveur-dns/db.siteprive.com:/etc/bind/db.siteprive.com
+      - ./configs/serveur-dns/db.sitepublic.com:/etc/bind/db.sitepublic.com
+
+  serveur-dns-entreprise:
+    image: ubuntu/bind9:latest
+    container_name: serveur-dns-entreprise
+    networks:
+      reseau-entreprise-as-2:
+        ipv4_address: 192.168.20.8
+    volumes:
+      - ./configs/serveur-dns-entreprise/named.conf.options:/etc/bind/named.conf.options
+      - ./configs/serveur-dns-entreprise/named.conf.local:/etc/bind/named.conf.local
+      - ./configs/serveur-dns-entreprise/db.as2.com:/etc/bind/db.as2.com
 
   routeur-1:
     image: frrouting/frr:latest
@@ -199,8 +216,6 @@ services:
   equipement-entreprise-as-2:
     image: alpine:latest
     container_name: equipement-entreprise-as-2
-    dns:
-      - 120.0.33.2
     networks:
       reseau-entreprise-as-2:
         ipv4_address: 192.168.20.2
@@ -208,6 +223,18 @@ services:
       - NET_ADMIN
     volumes:
       - ./configs/equipement-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+
+  equipement-entreprise-as-2.2:
+    image: alpine:latest
+    container_name: equipement-entreprise-as-2.2
+    networks:
+      reseau-entreprise-as-2:
+        ipv4_address: 192.168.20.4
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs/equipement-entreprise-as-2.2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
   
   serveur-dhcp-client-as-2:

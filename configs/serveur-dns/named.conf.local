@@ -1,0 +1,14 @@
+zone "as2.com" {
+    type master;
+    file "/etc/bind/db.as2.com";
+};
+
+zone "siteprive.com" {
+    type master;
+    file "/etc/bind/db.siteprive.com";
+};
+
+zone "sitepublic.com" {
+    type master;
+    file "/etc/bind/db.sitepublic.com";
+};

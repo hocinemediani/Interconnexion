@@ -8,7 +8,7 @@ iptables -P FORWARD DROP
 iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 # Et les requetes sortants du reseau prive.
 iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
-# On remplace l'adresse ip privee des machines par l'adresse publique du routeur
+# On remplace l'adresse ip privee des machines par l'adresse publique du routeur.
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # Creation du tunnel avec le protocole GRE entre 2 routeur.

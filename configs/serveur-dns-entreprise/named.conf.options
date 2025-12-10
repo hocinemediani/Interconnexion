@@ -1,0 +1,16 @@
+options {
+    directory "/var/cache/bind";
+
+    # On autorise toutes les requetes car elles seront deja filtrees.
+    allow-query { any; };
+
+    recursion yes;
+
+    # On balance les requetes qu'on ne sait resoudre au DNS de l'AS.
+    forwarders {
+        120.0.33.2;
+    };
+
+    dnssec-validation auto;
+    listen-on-v6 { any; };
+};
