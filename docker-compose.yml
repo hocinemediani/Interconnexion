@@ -209,6 +209,19 @@ services:
     volumes:
       - ./configs/equipement-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+  
+  serveur-dhcp-client-as-2:
+    image: networkboot/dhcpd:latest
+    container_name: serveur-dhcp-client-as-2
+    cap_add:
+      - NET_ADMIN
+    networks:
+      reseau-client-as-2:
+        ipv4_address: 192.168.30.3
+    volumes:
+      - ./configs/serveur-dhcp-client-as-2/dhcpd.conf:/data/dhcpd.conf
+
+
 
 networks:
   reseau-as:
