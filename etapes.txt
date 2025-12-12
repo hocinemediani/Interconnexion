@@ -50,3 +50,11 @@ l'exterieur, idem pour les clients :
 
 
 - Implementer le vpn et le voip :
+
+
+
+Retour du 12 Décembre :
+
+- VPN : Passer sur Wireguard pour la sécurité
+- Le Web Privée et le SMTP dans l'entreprise
+- Changer les .32 -> .16 (et ce qui s'en suit)
