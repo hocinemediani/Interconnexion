@@ -1,10 +1,10 @@
-  services:
+services:
   serveur-dns:
     image: ubuntu/bind9:latest
     container_name: serveur-dns
     networks:
       reseau-services:
-        ipv4_address: 120.0.33.2
+        ipv4_address: 120.0.17.3
     volumes:
       - ./configs/serveur-dns/named.conf.options:/etc/bind/named.conf.options
       - ./configs/serveur-dns/named.conf.local:/etc/bind/named.conf.local
@@ -17,7 +17,7 @@
     container_name: serveur-dns-entreprise
     networks:
       reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.8
+        ipv4_address: 192.168.20.4
     volumes:
       - ./configs/serveur-dns-entreprise/named.conf.options:/etc/bind/named.conf.options
       - ./configs/serveur-dns-entreprise/named.conf.local:/etc/bind/named.conf.local
@@ -28,10 +28,10 @@
     container_name: routeur-1
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.1
+        ipv4_address: 120.0.16.1
     volumes:
       - ./configs/routeur-1/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
@@ -41,10 +41,10 @@
     container_name: routeur-entreprise-as-2
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.3
+        ipv4_address: 120.0.16.3
       reseau-entreprise-as-2:
         ipv4_address: 192.168.20.1
     volumes:
@@ -56,10 +56,10 @@
     container_name: routeur-client-as-2
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.4
+        ipv4_address: 120.0.16.4
       reseau-client-as-2:
         ipv4_address: 192.168.30.1
     volumes:
@@ -71,10 +71,10 @@
     container_name: routeur-entreprise-as-1
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.5
+        ipv4_address: 120.0.16.5
       reseau-entreprise-as-1:
         ipv4_address: 192.168.10.1
     volumes:
@@ -86,10 +86,10 @@
     container_name: routeur-client-as-5
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.6
+        ipv4_address: 120.0.16.6
       reseau-client-as-5:
         ipv4_address: 192.168.40.1
     volumes:
@@ -101,10 +101,10 @@
     container_name: routeur-as-1
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.7
+        ipv4_address: 120.0.16.7
     volumes:
       - ./configs/routeur-as-1/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
@@ -115,10 +115,10 @@
     container_name: routeur-as-3
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.8
+        ipv4_address: 120.0.16.8
     volumes:
       - ./configs/routeur-as-3/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
@@ -128,10 +128,10 @@
     container_name: routeur-as-4
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.9
+        ipv4_address: 120.0.16.9
     volumes:
       - ./configs/routeur-as-4/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
@@ -141,10 +141,10 @@
     container_name: routeur-as-5
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.10
+        ipv4_address: 120.0.16.10
     volumes:
       - ./configs/routeur-as-5/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
@@ -154,12 +154,12 @@
     container_name: routeur-services
     privileged: true
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-as:
-        ipv4_address: 120.0.32.2
+        ipv4_address: 120.0.16.2
       reseau-services:
-        ipv4_address: 120.0.33.1
+        ipv4_address: 120.0.17.1
     volumes:
       - ./configs/routeur-services/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
@@ -170,10 +170,10 @@
     ports:
       - 80:80
     dns:
-      - 120.0.33.2
+      - 120.0.17.3
     networks:
       reseau-services:
-        ipv4_address: 120.0.33.3
+        ipv4_address: 120.0.17.2
     volumes:
       - ./configs/serveur-web-public/html:/usr/share/nginx/html:ro
 
@@ -183,10 +183,10 @@
     ports:
       - 8080:80
     dns:
-      - 120.0.33.2
+      - 192.168.20.4
     networks:
-      reseau-services:
-        ipv4_address: 120.0.33.4
+      reseau-entreprise-as-2:
+        ipv4_address: 192.168.20.2
     volumes:
       - ./configs/serveur-web-entreprise/html:/usr/share/nginx/html:ro
 
@@ -194,16 +194,16 @@
     image: juanluisbaptiste/postfix:latest
     container_name: serveur-smtp
     dns:
-      - 120.0.33.2
+      - 192.168.20.4
     networks:
-      reseau-services:
-        ipv4_address: 120.0.33.5
+      reseau-entreprise-as-2:
+        ipv4_address: 192.168.20.3
 
   equipement-client-as-2:
     image: alpine:latest
     container_name: equipement-client-as-2
     dns:
-      - 120.0.33.2
+      - 192.168.20.4
     networks:
       reseau-client-as-2:
         ipv4_address: 192.168.30.2
@@ -218,7 +218,7 @@
     container_name: equipement-entreprise-as-2
     networks:
       reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.2
+        ipv4_address: 192.168.20.5
     cap_add:
       - NET_ADMIN
     volumes:
@@ -230,7 +230,7 @@
     container_name: equipement-entreprise-as-2.2
     networks:
       reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.4
+        ipv4_address: 192.168.20.7
     cap_add:
       - NET_ADMIN
     volumes:
@@ -255,7 +255,7 @@
       - NET_ADMIN
     networks:
       reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.3
+        ipv4_address: 192.168.20.6
     volumes:
       - ./configs/serveur-dhcp-entreprise-as-2/dhcpd.conf:/data/dhcpd.conf
 
@@ -266,14 +266,14 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.32.0/24
-          gateway: 120.0.32.254
+        - subnet: 120.0.16.0/24
+          gateway: 120.0.16.254
   reseau-services:
     driver: bridge
     ipam:
       config:
-        - subnet: 120.0.33.0/28
-          gateway: 120.0.33.14
+        - subnet: 120.0.17.0/28
+          gateway: 120.0.17.14
   reseau-client-as-5:
     driver: bridge
     ipam:

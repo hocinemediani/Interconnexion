@@ -8,7 +8,7 @@ options {
 
     # On balance les requetes qu'on ne sait resoudre au DNS de l'AS.
     forwarders {
-        120.0.33.2;
+        120.0.17.3;
     };
 
     dnssec-validation auto;

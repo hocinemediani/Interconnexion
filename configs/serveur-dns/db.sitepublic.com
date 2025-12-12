@@ -8,6 +8,6 @@ $TTL    604800
 
 @       IN      NS      ns.as2.com.
 
-@       IN      A       120.0.33.3
+@       IN      A       120.0.17.2
 
-www     IN      A       120.0.33.3
+www     IN      A       120.0.17.2

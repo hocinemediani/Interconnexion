@@ -1,6 +1,6 @@
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ip route del default || true
-ip route add default via 120.0.32.1
+ip route add default via 120.0.16.1
 # Politique par defaut, rien ne passe.
 iptables -P FORWARD DROP
 # Autoriser les reponses des services sur des connexions deja etablies.
