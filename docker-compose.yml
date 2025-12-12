@@ -1,4 +1,4 @@
-services:
+  services:
   serveur-dns:
     image: ubuntu/bind9:latest
     container_name: serveur-dns
