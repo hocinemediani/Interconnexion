@@ -12,7 +12,7 @@ iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # Creation du tunnel avec le protocole GRE entre 2 routeur.
-ip tunnel add tun0 mode gre local 120.0.32.4 remote 120.0.32.3
+ip tunnel add tun0 mode gre local 120.0.16.4 remote 120.0.16.3
 # Ajout d'une ip sur "l'interface" du tunnel.
 ip link set tun0 up
 ip addr add 10.0.0.2/30 dev tun0
