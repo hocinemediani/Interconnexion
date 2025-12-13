@@ -9,7 +9,6 @@ services:
       - ./configs/serveur-dns/named.conf.options:/etc/bind/named.conf.options
       - ./configs/serveur-dns/named.conf.local:/etc/bind/named.conf.local
       - ./configs/serveur-dns/db.as2.com:/etc/bind/db.as2.com
-      - ./configs/serveur-dns/db.siteprive.com:/etc/bind/db.siteprive.com
       - ./configs/serveur-dns/db.sitepublic.com:/etc/bind/db.sitepublic.com
 
   serveur-dns-entreprise:

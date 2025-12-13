@@ -9,13 +9,7 @@ $TTL    3H
 @       IN      NS      ns.as2.com.
 
 ; Serveur DNS
-ns      IN      A       120.0.33.2
+ns      IN      A       120.0.17.3
 
 ; Web public
-www     IN      A       120.0.33.3
-
-; Web entreprise prive
-intranet IN     A       120.0.33.4
-
-; SMTP
-mailServer    IN      A       120.0.33.5
+www     IN      A       120.0.17.2
