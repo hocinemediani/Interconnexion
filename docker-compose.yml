@@ -2,6 +2,7 @@ services:
   serveur-dns:
     image: ubuntu/bind9:latest
     container_name: serveur-dns
+    privileged: true
     networks:
       reseau-services:
         ipv4_address: 120.0.17.3
@@ -10,6 +11,8 @@ services:
       - ./configs/serveur-dns/named.conf.local:/etc/bind/named.conf.local
       - ./configs/serveur-dns/db.as2.com:/etc/bind/db.as2.com
       - ./configs/serveur-dns/db.sitepublic.com:/etc/bind/db.sitepublic.com
+      - ./configs/serveur-dns/init.sh:/usr/local/bin/init.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
 
   serveur-dns-entreprise:
     image: ubuntu/bind9:latest
@@ -33,7 +36,7 @@ services:
         ipv4_address: 120.0.16.1
     volumes:
       - ./configs/routeur-1/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
   
   routeur-entreprise-as-2:
     image: frrouting/frr:latest
@@ -48,7 +51,7 @@ services:
         ipv4_address: 192.168.20.1
     volumes:
       - ./configs/routeur-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-client-as-2:
     image: frrouting/frr:latest
@@ -63,7 +66,7 @@ services:
         ipv4_address: 192.168.30.1
     volumes:
       - ./configs/routeur-client-as-2/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-entreprise-as-1:
     image: frrouting/frr:latest
@@ -78,7 +81,7 @@ services:
         ipv4_address: 192.168.10.1
     volumes:
       - ./configs/routeur-entreprise-as-1/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-client-as-5:
     image: frrouting/frr:latest
@@ -93,7 +96,7 @@ services:
         ipv4_address: 192.168.40.1
     volumes:
       - ./configs/routeur-client-as-5/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-as-1:
     image: frrouting/frr:latest
@@ -106,7 +109,7 @@ services:
         ipv4_address: 120.0.16.7
     volumes:
       - ./configs/routeur-as-1/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
           
 
   routeur-as-3:
@@ -120,7 +123,7 @@ services:
         ipv4_address: 120.0.16.8
     volumes:
       - ./configs/routeur-as-3/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-as-4:
     image: frrouting/frr:latest
@@ -133,7 +136,7 @@ services:
         ipv4_address: 120.0.16.9
     volumes:
       - ./configs/routeur-as-4/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-as-5:
     image: frrouting/frr:latest
@@ -146,7 +149,7 @@ services:
         ipv4_address: 120.0.16.10
     volumes:
       - ./configs/routeur-as-5/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
   
   routeur-services:
     image: frrouting/frr:latest
@@ -161,11 +164,14 @@ services:
         ipv4_address: 120.0.17.1
     volumes:
       - ./configs/routeur-services/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   serveur-web-public:
-    image: nginx:latest
+    build:
+      context: ./configs/serveur-web-public/
+      dockerfile: Dockerfile
     container_name: serveur-web-public
+    privileged: true
     ports:
       - 80:80
     dns:
@@ -175,10 +181,13 @@ services:
         ipv4_address: 120.0.17.2
     volumes:
       - ./configs/serveur-web-public/html:/usr/share/nginx/html:ro
+      - ./configs/serveur-web-public/init.sh:/usr/local/bin/init.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
 
   serveur-web-entreprise:
     image: nginx:latest
     container_name: serveur-web-entreprise
+    privileged: true
     ports:
       - 8080:80
     dns:
@@ -192,6 +201,7 @@ services:
   serveur-smtp:
     image: juanluisbaptiste/postfix:latest
     container_name: serveur-smtp
+    privileged: true
     dns:
       - 192.168.20.4
     networks:
@@ -210,7 +220,7 @@ services:
       - NET_ADMIN
     volumes:
       - ./configs/equipement-client-as-2/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   equipement-entreprise-as-2:
     image: alpine:latest
@@ -222,7 +232,7 @@ services:
       - NET_ADMIN
     volumes:
       - ./configs/equipement-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   equipement-entreprise-as-2.2:
     image: alpine:latest
@@ -234,7 +244,7 @@ services:
       - NET_ADMIN
     volumes:
       - ./configs/equipement-entreprise-as-2.2/init.sh:/usr/local/bin/init_custom.sh
-    entrypoint: ["/bin/sh", /usr/local/bin/init_custom.sh]
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
   
   serveur-dhcp-client-as-2:
     image: networkboot/dhcpd:latest
