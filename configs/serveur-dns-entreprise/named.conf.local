@@ -5,6 +5,7 @@ key "ddns-key" {
 
 zone "entreprise.com" {
     type master;
-    file "/var/lib/bind/db.entreprise.com";
+    file "/etc/bind/db.entreprise.com";
     allow-update {key "ddns-key"; };
 };
+

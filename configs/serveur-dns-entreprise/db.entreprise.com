@@ -10,3 +10,6 @@ $TTL    3H
 
 ; Serveur DNS
 ns      IN      A       192.168.20.4
+
+; Web entreprise
+www     IN      A       192.168.20.2

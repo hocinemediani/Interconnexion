@@ -17,13 +17,16 @@ services:
   serveur-dns-entreprise:
     image: ubuntu/bind9:latest
     container_name: serveur-dns-entreprise
+    privileged: true
     networks:
       reseau-entreprise-as-2:
         ipv4_address: 192.168.20.4
     volumes:
       - ./configs/serveur-dns-entreprise/named.conf.options:/etc/bind/named.conf.options
       - ./configs/serveur-dns-entreprise/named.conf.local:/etc/bind/named.conf.local
-      - ./configs/serveur-dns-entreprise/db.as2.com:/etc/bind/db.as2.com
+      - ./configs/serveur-dns-entreprise/db.entreprise.com:/etc/bind/db.entreprise.com
+      - ./configs/serveur-dns-entreprise/init.sh:/usr/local/bin/init.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
 
   routeur-1:
     image: frrouting/frr:latest
@@ -185,7 +188,9 @@ services:
     entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
 
   serveur-web-entreprise:
-    image: nginx:latest
+    build:
+      context: ./configs/serveur-web-entreprise/
+      dockerfile: Dockerfile
     container_name: serveur-web-entreprise
     privileged: true
     ports:
@@ -197,6 +202,8 @@ services:
         ipv4_address: 192.168.20.2
     volumes:
       - ./configs/serveur-web-entreprise/html:/usr/share/nginx/html:ro
+      - ./configs/serveur-web-entreprise/init.sh:/usr/local/bin/init.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
 
   serveur-smtp:
     image: juanluisbaptiste/postfix:latest
@@ -225,6 +232,9 @@ services:
   equipement-entreprise-as-2:
     image: alpine:latest
     container_name: equipement-entreprise-as-2
+    dns:
+      - 192.168.20.4
+    privileged: true
     networks:
       reseau-entreprise-as-2:
         ipv4_address: 192.168.20.5
@@ -237,6 +247,9 @@ services:
   equipement-entreprise-as-2.2:
     image: alpine:latest
     container_name: equipement-entreprise-as-2.2
+    dns:
+      - 192.168.20.4
+    privileged: true
     networks:
       reseau-entreprise-as-2:
         ipv4_address: 192.168.20.7
@@ -249,6 +262,7 @@ services:
   serveur-dhcp-client-as-2:
     image: networkboot/dhcpd:latest
     container_name: serveur-dhcp-client-as-2
+    privileged: true
     cap_add:
       - NET_ADMIN
     networks:
@@ -260,6 +274,7 @@ services:
   serveur-dhcp-entreprise-as-2:
     image: networkboot/dhcpd:latest
     container_name: serveur-dhcp-entreprise-as-2
+    privileged: true
     cap_add:
       - NET_ADMIN
     networks:
