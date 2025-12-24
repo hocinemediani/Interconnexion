@@ -11,6 +11,6 @@ options {
         120.0.17.3;
     };
 
-    dnssec-validation auto;
+    dnssec-validation no;
     listen-on-v6 { any; };
 };
