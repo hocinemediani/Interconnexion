@@ -59,5 +59,4 @@ Retour du 12 Décembre :
 - Mettre DHCP dans l'AS pour les clients (uniquement donner des ips aux adresses mac de notre client, c'est la gestion de suppression et d'ajout d'utilisateurs).
 - Mise en place de plus d'equipements dans les entreprises, avec des switchs, segmenter avec des VLANs et ajouter un serveur LDAP.
 - Mise en place du VoIP avec Asterisk.
-- Mise en place du DNS pour l'entreprise, pour resoudre les noms des serveurs dns et web et autres au sein meme de l'entreprise.
 - Mise en place de plus de securite pour tous les acces.
