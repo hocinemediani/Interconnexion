@@ -233,7 +233,7 @@ services:
       - ONE_DIR=1
 
   equipement-client-as-2:
-    image: alpine:latest
+    image: nicolaka/netshoot
     container_name: equipement-client-as-2
     dns:
       - 192.168.20.4
@@ -262,7 +262,7 @@ services:
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   equipement-entreprise-as-2.2:
-    image: alpine:latest
+    image: nicolaka/netshoot
     container_name: equipement-entreprise-as-2.2
     dns:
       - 192.168.20.4
