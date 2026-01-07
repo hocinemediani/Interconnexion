@@ -67,6 +67,7 @@ services:
     networks:
       reseau-as:
         ipv4_address: 120.0.16.4
+        mac_address: "02:42:ac:11:00:01"  
       reseau-client-as-2:
         ipv4_address: 192.168.30.1
     volumes:
@@ -97,6 +98,7 @@ services:
     networks:
       reseau-as:
         ipv4_address: 120.0.16.6
+        mac_address: "02:42:ac:11:00:02"
       reseau-client-as-5:
         ipv4_address: 192.168.40.1
     volumes:
@@ -300,7 +302,17 @@ services:
     volumes:
       - ./configs/serveur-dhcp-entreprise-as-2/dhcpd.conf:/data/dhcpd.conf
 
-
+  serveur-dhcp-as:
+    image: networkboot/dhcpd:latest
+    container_name: serveur-dhcp-as
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    networks:
+      reseau-as:
+        ipv4_address: 120.0.16.11
+    volumes:
+      - ./configs/serveur-dhcp-as/dhcpd.conf:/data/dhcpd.conf
 
 networks:
   reseau-as:
