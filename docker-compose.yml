@@ -68,8 +68,10 @@ services:
       reseau-as:
         ipv4_address: 120.0.16.4
         mac_address: "02:42:ac:11:00:01"  
+        interface_name: eth0
       reseau-client-as-2:
         ipv4_address: 192.168.30.1
+        interface_name: eth1
     volumes:
       - ./configs/routeur-client-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
@@ -99,8 +101,10 @@ services:
       reseau-as:
         ipv4_address: 120.0.16.6
         mac_address: "02:42:ac:11:00:02"
+        interface_name: eth0
       reseau-client-as-5:
         ipv4_address: 192.168.40.1
+        interface_name: eth1
     volumes:
       - ./configs/routeur-client-as-5/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
@@ -242,6 +246,7 @@ services:
     networks:
       reseau-client-as-2:
         ipv4_address: 192.168.30.2
+        interface_name: eth0
     cap_add:
       - NET_ADMIN
     volumes:
