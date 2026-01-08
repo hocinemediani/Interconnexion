@@ -52,8 +52,10 @@ services:
     networks:
       reseau-as:
         ipv4_address: 120.0.16.3
+        interface_name: eth0
       reseau-entreprise-as-2:
         ipv4_address: 192.168.20.1
+        interface_name: eth1
     volumes:
       - ./configs/routeur-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
@@ -63,7 +65,7 @@ services:
     container_name: routeur-client-as-2
     privileged: true
     dns:
-      - 120.0.17.3
+      - 127.0.0.1
     networks:
       reseau-as:
         ipv4_address: 120.0.16.4
@@ -74,6 +76,7 @@ services:
         interface_name: eth1
     volumes:
       - ./configs/routeur-client-as-2/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-client-as-2/dnsmasq.conf:/etc/dnsmasq.conf
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-entreprise-as-1:
@@ -85,8 +88,10 @@ services:
     networks:
       reseau-as:
         ipv4_address: 120.0.16.5
+        interface_name: eth0
       reseau-entreprise-as-1:
         ipv4_address: 192.168.10.1
+        interface_name: eth1
     volumes:
       - ./configs/routeur-entreprise-as-1/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
@@ -171,8 +176,10 @@ services:
     networks:
       reseau-as:
         ipv4_address: 120.0.16.2
+        interface_name: eth0
       reseau-services:
         ipv4_address: 120.0.17.1
+        interface_name: eth1
     volumes:
       - ./configs/routeur-services/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
@@ -242,7 +249,7 @@ services:
     image: nicolaka/netshoot
     container_name: equipement-client-as-2
     dns:
-      - 192.168.20.4
+      - 192.168.30.1
     networks:
       reseau-client-as-2:
         ipv4_address: 192.168.30.2

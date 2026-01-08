@@ -1,11 +1,11 @@
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
-apk add -U wireguard-tools dhcpcd
+apk add -U wireguard-tools dhcpcd dnsmasq
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ip addr flush dev eth0
-udhcpc -i eth0
+udhcpc -i eth0 -R
 ip route del default || true
 ip route add default via 120.0.16.1
-echo "nameserver 120.0.17.3" > /etc/resolv.conf
+echo "nameserver 127.0.0.1" > /etc/resolv.conf
 # Rien ne passe.
 iptables -P FORWARD DROP
 # Sauf les connexions deja etablies.
@@ -42,4 +42,5 @@ iptables -A FORWARD -o wg0 -j ACCEPT
 # Autoriser le trafic UDP chiffre a ENTRER sur l'interface publique
 iptables -A INPUT -p udp --dport 51820 -j ACCEPT
 
-exec /usr/lib/frr/docker-start
+exec /usr/lib/frr/docker-start &
+exec dnsmasq -d -q 
