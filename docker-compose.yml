@@ -326,6 +326,22 @@ services:
     volumes:
       - ./configs/serveur-dhcp-as/dhcpd.conf:/data/dhcpd.conf
 
+  serveur-voip:
+    image: andrius/asterisk:latest
+    container_name: serveur-voip
+    privileged: true
+    user: root
+    networks:
+      reseau-entreprise-as-2:
+    entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
+    volumes:
+      - ./configs/serveur-voip/init.sh:/usr/local/bin/init.sh
+      - ./configs/serveur-voip/pjsip.conf:/etc/asterisk/pjsip.conf
+      - ./configs/serveur-voip/extensions.conf:/etc/asterisk/extensions.conf
+    ports:
+      - "5060:5060/udp"
+      - "10000-10020:10000-10020/udp"
+
 networks:
   reseau-as:
     driver: bridge
