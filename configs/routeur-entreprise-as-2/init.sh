@@ -1,5 +1,5 @@
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
-apk add -U wireguard-tools
+
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ip route del default || true
 ip route add default via 120.0.16.1

@@ -30,10 +30,12 @@ wg set wg0 \
     private-key /tmp/private.key \
     peer Y2Vc8iIzE4gl9GotUI1hZ+r4Ip/UsbJ0cj9y+jvBOAU= \
     endpoint 120.0.16.3:51820 \
-    allowed-ips 10.0.0.1/32,192.168.20.0/24
+    allowed-ips 10.0.0.1/32,192.168.21.0/26,192.168.22.64/26,192.168.23.128/26
 
 ip link set up dev wg0
-ip route add 192.168.20.0/24 dev wg0
+ip route add 192.168.21.0/26 dev wg0
+ip route add 192.168.22.64/26 dev wg0
+ip route add 192.168.23.128/26 dev wg0
 
 # Autoriser le trafic DANS le tunnel
 iptables -A FORWARD -i wg0 -j ACCEPT

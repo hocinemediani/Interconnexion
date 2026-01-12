@@ -9,7 +9,10 @@ RUN apt-get update && apt-get install -y \
     iproute2 \
     iputils-ping \
     tcpdump \
+    wireguard \
+    wireguard-tools \
+    dnsutils \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# On prépare les dossiers FRR
 RUN chown -R frr:frr /etc/frr
