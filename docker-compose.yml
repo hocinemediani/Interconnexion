@@ -272,6 +272,7 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
+      - ./configs/equipement-entreprise-as-2/:/mnt/config/
       - ./configs/equipement-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
