@@ -1,3 +1,3 @@
 ip route del default || true
-ip route add default via 192.168.20.1
+ip route add default via 192.168.23.129
 exec named -g

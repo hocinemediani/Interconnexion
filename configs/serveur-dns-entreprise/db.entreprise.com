@@ -9,7 +9,7 @@ $TTL    3H
 @       IN      NS      ns.entreprise.com.
 
 ; Serveur DNS
-ns      IN      A       192.168.20.4
+ns      IN      A       192.168.23.134
 
 ; Web entreprise
-www     IN      A       192.168.20.2
+www     IN      A       192.168.23.132

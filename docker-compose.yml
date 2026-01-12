@@ -21,8 +21,8 @@ services:
     dns:
       - 120.0.17.3
     networks:
-      reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.4
+      vlan30_serveurs:
+        ipv4_address: 192.168.23.134
     volumes:
       - ./configs/serveur-dns-entreprise/named.conf.options:/etc/bind/named.conf.options
       - ./configs/serveur-dns-entreprise/named.conf.local:/etc/bind/named.conf.local
@@ -44,7 +44,9 @@ services:
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
   
   routeur-entreprise-as-2:
-    image: frrouting/frr:latest
+    build:
+      context: ./configs/routeur-entreprise-as-2/
+      dockerfile: Dockerfile
     container_name: routeur-entreprise-as-2
     privileged: true
     dns:
@@ -53,9 +55,15 @@ services:
       reseau-as:
         ipv4_address: 120.0.16.3
         interface_name: eth0
-      reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.1
+      vlan10_admin:
+        ipv4_address: 192.168.21.1
         interface_name: eth1
+      vlan20_employes:
+        ipv4_address: 192.168.22.65
+        interface_name: eth2
+      vlan30_serveurs:
+        ipv4_address: 192.168.23.129
+        interface_name: eth3
     volumes:
       - ./configs/routeur-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
@@ -211,10 +219,10 @@ services:
     ports:
       - 8080:80
     dns:
-      - 192.168.20.4
+      - 192.168.23.134
     networks:
-      reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.2
+      vlan30_serveurs:
+        ipv4_address: 192.168.23.132
     volumes:
       - ./configs/serveur-web-entreprise/html:/usr/share/nginx/html:ro
       - ./configs/serveur-web-entreprise/init.sh:/usr/local/bin/init.sh
@@ -229,8 +237,8 @@ services:
       - "25:25"    # Port SMTP (Envoi)
       - "143:143"  # Port IMAP (Réception)
     networks:
-      reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.3
+      vlan30_serveurs:
+        ipv4_address: 192.168.23.130
     volumes:
       - ./configs/serveur-mail/maildata:/var/mail
       - ./configs/serveur-mail/mailstate:/var/mail-state
@@ -259,36 +267,101 @@ services:
     volumes:
       - ./configs/equipement-client-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
-
-  equipement-entreprise-as-2:
+   
+ 
+      
+  admin1-entreprise-as-2:
     image: nicolaka/netshoot
-    container_name: equipement-entreprise-as-2
+    container_name: admin1-entreprise-as-2
     dns:
-      - 192.168.20.4
+      - 192.168.23.134
     privileged: true
     networks:
-      reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.5
+      vlan10_admin:
+        ipv4_address: 192.168.21.2
     cap_add:
       - NET_ADMIN
     volumes:
-      - ./configs/equipement-entreprise-as-2/:/mnt/config/
-      - ./configs/equipement-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/admin1-entreprise-as-2/:/mnt/config/
+      - ./configs/admin1-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
+  
+  admin2-entreprise-as-2:
+    image: nicolaka/netshoot
+    container_name: admin2-entreprise-as-2
+    dns:
+      - 192.168.23.134
+    privileged: true
+    networks:
+      vlan10_admin:
+        ipv4_address: 192.168.21.3
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs/admin2-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
+  
+  
+  admin3-entreprise-as-2:
+    image: nicolaka/netshoot
+    container_name: admin3-entreprise-as-2
+    dns:
+      - 192.168.23.134
+    privileged: true
+    networks:
+      vlan10_admin:
+        ipv4_address: 192.168.21.4
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs/admin3-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
+  
+ 
+  employe3-entreprise-as-2:
+    image: nicolaka/netshoot
+    container_name: employe3-entreprise-as-2
+    dns:
+      - 192.168.23.134
+    privileged: true
+    networks:
+      vlan20_employes:
+        ipv4_address: 192.168.22.68
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs/employe3-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+    entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
+    
+    
+  employe2-entreprise-as-2:
+    image: nicolaka/netshoot
+    container_name: employe2-entreprise-as-2
+    dns:
+      - 192.168.23.134
+    privileged: true
+    networks:
+      vlan20_employes:
+        ipv4_address: 192.168.22.67
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs/employe2-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
-  equipement-entreprise-as-2.2:
+  employe1-entreprise-as-2:
     image: nicolaka/netshoot
-    container_name: equipement-entreprise-as-2.2
+    container_name: employe1-entreprise-as-2
     dns:
-      - 192.168.20.4
+      - 192.168.23.134
     privileged: true
     networks:
-      reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.7
+      vlan20_employes:
+        ipv4_address: 192.168.22.66
     cap_add:
       - NET_ADMIN
     volumes:
-      - ./configs/equipement-entreprise-as-2.2/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/employe1-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
   
   serveur-dhcp-client-as-2:
@@ -310,10 +383,14 @@ services:
     cap_add:
       - NET_ADMIN
     networks:
-      reseau-entreprise-as-2:
-        ipv4_address: 192.168.20.6
+      vlan30_serveurs:
+        ipv4_address: 192.168.23.133
     volumes:
       - ./configs/serveur-dhcp-entreprise-as-2/dhcpd.conf:/data/dhcpd.conf
+      - ./configs/serveur-dhcp-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh:ro
+    entrypoint: ["/bin/bash", "/usr/local/bin/init_custom.sh"]
+    
+  
 
   serveur-dhcp-as:
     image: networkboot/dhcpd:latest
@@ -333,7 +410,8 @@ services:
     privileged: true
     user: root
     networks:
-      reseau-entreprise-as-2:
+      vlan30_serveurs:
+        ipv4_address: 192.168.23.131
     entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
     volumes:
       - ./configs/serveur-voip/init.sh:/usr/local/bin/init.sh
@@ -380,3 +458,21 @@ networks:
       config:
         - subnet: 192.168.10.0/24
           gateway: 192.168.10.254
+  vlan10_admin:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.21.0/26
+          gateway: 192.168.21.62
+  vlan20_employes:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.22.64/26
+          gateway: 192.168.22.126
+  vlan30_serveurs:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.23.128/26
+          gateway: 192.168.23.190
