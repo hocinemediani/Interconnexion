@@ -249,10 +249,14 @@ services:
     networks:
       vlan30_serveurs:
         ipv4_address: 192.168.23.130
+    cap_add:
+      - NET_ADMIN
     volumes:
       - ./configs/serveur-mail/maildata:/var/mail
       - ./configs/serveur-mail/mailstate:/var/mail-state
       - ./configs/serveur-mail/config:/tmp/docker-mailserver
+      - ./configs/serveur-mail/init.sh:/tmp/docker-mailserver/user-patches.sh
+    #entrypoint: ["/bin/bash", "/usr/local/bin/init.sh"]
     environment:
       - ENABLE_AMAVIS=0
       - ENABLE_SPAMASSASSIN=0
