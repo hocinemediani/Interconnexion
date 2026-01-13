@@ -41,6 +41,7 @@ services:
         ipv4_address: 120.0.16.1
     volumes:
       - ./configs/routeur-1/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-1/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
   
   routeur-entreprise-as-2:
@@ -66,6 +67,7 @@ services:
         interface_name: eth3
     volumes:
       - ./configs/routeur-entreprise-as-2/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-entreprise-as-2/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-client-as-2:
@@ -85,6 +87,7 @@ services:
     volumes:
       - ./configs/routeur-client-as-2/init.sh:/usr/local/bin/init_custom.sh
       - ./configs/routeur-client-as-2/dnsmasq.conf:/etc/dnsmasq.conf
+      - ./configs/routeur-client-as-2/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-entreprise-as-1:
@@ -102,6 +105,7 @@ services:
         interface_name: eth1
     volumes:
       - ./configs/routeur-entreprise-as-1/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-entreprise-as-1/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-client-as-5:
@@ -120,6 +124,7 @@ services:
         interface_name: eth1
     volumes:
       - ./configs/routeur-client-as-5/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-client-as-5/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-as-1:
@@ -133,6 +138,7 @@ services:
         ipv4_address: 120.0.16.7
     volumes:
       - ./configs/routeur-as-1/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-as-1/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
           
 
@@ -147,6 +153,7 @@ services:
         ipv4_address: 120.0.16.8
     volumes:
       - ./configs/routeur-as-3/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-as-3/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-as-4:
@@ -160,6 +167,7 @@ services:
         ipv4_address: 120.0.16.9
     volumes:
       - ./configs/routeur-as-4/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-as-4/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   routeur-as-5:
@@ -173,6 +181,7 @@ services:
         ipv4_address: 120.0.16.10
     volumes:
       - ./configs/routeur-as-5/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-as-5/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
   
   routeur-services:
@@ -190,6 +199,7 @@ services:
         interface_name: eth1
     volumes:
       - ./configs/routeur-services/init.sh:/usr/local/bin/init_custom.sh
+      - ./configs/routeur-services/frr:/etc/frr
     entrypoint: ["/bin/sh", "/usr/local/bin/init_custom.sh"]
 
   serveur-web-public:

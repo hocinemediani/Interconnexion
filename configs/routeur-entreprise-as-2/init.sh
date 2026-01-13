@@ -2,10 +2,11 @@ echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
 echo 1 > /proc/sys/net/ipv4/ip_forward
 ip route del default || true
-ip route add default via 120.0.16.1
 echo "nameserver 120.0.17.3" > /etc/resolv.conf
 # Rien ne passe.
 iptables -P FORWARD DROP
+iptables -A INPUT -p ospf -j ACCEPT
+iptables -A FORWARD -p ospf -j ACCEPT
 # Sauf les connexions deja etablies.
 iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 # Et les requetes sortants du reseau prive.
@@ -39,7 +40,6 @@ wg set wg0 \
     allowed-ips 10.0.0.2/32,192.168.30.0/24
 
 ip link set up dev wg0
-ip route add 192.168.30.0/24 dev wg0
 
 # Autoriser le trafic DANS le tunnel
 iptables -A FORWARD -i wg0 -j ACCEPT
@@ -49,7 +49,9 @@ iptables -A FORWARD -o wg0 -j ACCEPT
 iptables -A INPUT -p udp --dport 51820 -j ACCEPT
 /usr/sbin/dhcrelay -4 -i eth1 -i eth2 -i eth3 192.168.23.133 &
 
-/usr/lib/frr/frrinit.sh start
+chown -R frr:frr /etc/frr && chmod -R 640 /etc/frr/*.conf && chmod 640 /etc/frr/daemons && /usr/lib/frr/frrinit.sh start &
+sleep 5
+ip route add 192.168.30.0/24 dev wg0
 
 # Empêcher le conteneur de s'arrêter
 tail -f /dev/null

@@ -4,10 +4,11 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 ip addr flush dev eth0
 udhcpc -i eth0 -R
 ip route del default || true
-ip route add default via 120.0.16.1
 echo "nameserver 127.0.0.1" > /etc/resolv.conf
 # Rien ne passe.
 iptables -P FORWARD DROP
+iptables -A INPUT -p ospf -j ACCEPT
+iptables -A FORWARD -p ospf -j ACCEPT
 # Sauf les connexions deja etablies.
 iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 # Et les requetes sortants du reseau prive.
@@ -33,9 +34,6 @@ wg set wg0 \
     allowed-ips 10.0.0.1/32,192.168.21.0/26,192.168.22.64/26,192.168.23.128/26
 
 ip link set up dev wg0
-ip route add 192.168.21.0/26 dev wg0
-ip route add 192.168.22.64/26 dev wg0
-ip route add 192.168.23.128/26 dev wg0
 
 # Autoriser le trafic DANS le tunnel
 iptables -A FORWARD -i wg0 -j ACCEPT
@@ -44,5 +42,9 @@ iptables -A FORWARD -o wg0 -j ACCEPT
 # Autoriser le trafic UDP chiffre a ENTRER sur l'interface publique
 iptables -A INPUT -p udp --dport 51820 -j ACCEPT
 
-exec /usr/lib/frr/docker-start &
+chown -R frr:frr /etc/frr && chmod -R 640 /etc/frr/*.conf && chmod 640 /etc/frr/daemons && /usr/lib/frr/docker-start &
+sleep 5
+ip route add 192.168.21.0/26 dev wg0
+ip route add 192.168.22.64/26 dev wg0
+ip route add 192.168.23.128/26 dev wg0
 exec dnsmasq -d -q 
