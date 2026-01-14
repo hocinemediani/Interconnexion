@@ -5,6 +5,7 @@
 
 
 ## 📌 Project Overview
+
 ISPs have always been a blackbox with many layers of abstraction, but a blackbox that we all use daily.
 To better understand how they work, this project focuses on recreating an Autonomous System that acts as an ISP,
 interconnecting other ASs and granting a private and safe access to the rest of the network for its customers.
@@ -60,12 +61,12 @@ docker exec "equipment-name" bash
 ## 🤝 Contributors
 | Names        | Role           | Github Profile|
 |-------------|----------------|---------------|
-| *Hocine Mediani* | 👨‍💻 Developer / Graphic assets   | [> hocinemediani](https://github.com/hocinemediani) |
-| *Ilian Kraifi* | 👨‍💻 Developer   | [> iki389](https://github.com/ik389) |
-| *Benjamin Krief* | 👨‍💻 Developer   | [> Banshai012](https://github.com/Banshai012) |
+| *Hocine Mediani*     | 👨‍💻 Developer   | [> hocinemediani](https://github.com/hocinemediani) |
+| *Ilian Kraifi*       | 👨‍💻 Developer   | [> iki389](https://github.com/ik389) |
+| *Benjamin Krief*     | 👨‍💻 Developer   | [> Banshai012](https://github.com/Banshai012) |
 | *Bonheur Eldjimbaye* | 👨‍💻 Developer   | [> BONHEUR-ELDJIMBAYE](https://github.com/BONHEUR-ELDJIMBAYE) |
-| *Aymen Nadi* | 👨‍💻 Developer   | [> aymennadi](https://github.com/aymennadi) |
-| *Marouane Berrad* | 👨‍💻 Developer   | [> marbrd](https://github.com/marbrd) |
+| *Aymen Nadi*         | 👨‍💻 Developer   | [> aymennadi](https://github.com/aymennadi) |
+| *Marouane Berrad*    | 👨‍💻 Developer   | [> marbrd](https://github.com/marbrd) |
 ---
 
 
