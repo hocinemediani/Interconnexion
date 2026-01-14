@@ -256,7 +256,7 @@ services:
       - ./configs/serveur-mail/mailstate:/var/mail-state
       - ./configs/serveur-mail/config:/tmp/docker-mailserver
       - ./configs/serveur-mail/init.sh:/tmp/docker-mailserver/user-patches.sh
-    #entrypoint: ["/bin/bash", "/usr/local/bin/init.sh"]
+
     environment:
       - ENABLE_AMAVIS=0
       - ENABLE_SPAMASSASSIN=0
@@ -424,8 +424,8 @@ services:
     privileged: true
     user: root
     networks:
-      vlan30_serveurs:
-        ipv4_address: 192.168.23.131
+      vlan20_employes:
+        ipv4_address: 192.168.22.69
     entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
     volumes:
       - ./configs/serveur-voip/init.sh:/usr/local/bin/init.sh
